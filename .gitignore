@@ -1,3 +1,5 @@
 node_modules/
 data/
 reports/
+.DS_Store
+PSM Logos/
