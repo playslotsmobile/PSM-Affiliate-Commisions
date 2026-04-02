@@ -1,0 +1,69 @@
+<%- include('layout', { body: `
+<div class="flex-between mb-4">
+  <h1 style="font-size:22px; color:#7B4FFF;">Affiliates</h1>
+  <button class="btn btn-gold" onclick="document.getElementById('newModal').style.display='block'">+ Add Affiliate</button>
+</div>
+
+<div class="card" style="padding:0; overflow-x:auto;">
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>4-wk Avg Players</th>
+        <th>Carryover</th>
+        <th>Last Commission</th>
+        <th>Status</th>
+        <th>Telegram</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      ${affiliates.length === 0 ? '<tr><td colspan="7" style="text-align:center;color:#888;padding:30px;">No affiliates yet. Add one to get started.</td></tr>' : ''}
+      ${affiliates.map(a => `
+        <tr>
+          <td><a href="/affiliate/${a.id}">${a.username}</a></td>
+          <td>${a.playerAvg}</td>
+          <td class="${a.carryover < 0 ? 'text-red' : ''}">${formatCurrency(a.carryover)}</td>
+          <td class="text-green">${formatCurrency(a.lastCommission)}</td>
+          <td>
+            ${a.lastStatus === 'paid' ? '<span class="badge badge-paid">Paid</span>' :
+              a.lastStatus === 'unpaid' ? '<span class="badge badge-unpaid">Unpaid</span>' :
+              '<span class="badge badge-na">N/A</span>'}
+          </td>
+          <td>${a.telegram_chat_id ? '<span class="text-green">Connected</span>' : '<span class="text-gray">—</span>'}</td>
+          <td><a href="/report/new?affiliate_id=${a.id}" class="btn btn-outline btn-sm">New Report</a></td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+</div>
+
+<!-- New Affiliate Modal -->
+<div id="newModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100; display:none; align-items:center; justify-content:center;">
+  <div class="card" style="max-width:450px; margin:auto; margin-top:15vh;">
+    <div class="flex-between mb-4">
+      <h2>Add Affiliate</h2>
+      <button class="btn btn-sm" onclick="document.getElementById('newModal').style.display='none'" style="background:none;color:#aaa;font-size:18px;">&times;</button>
+    </div>
+    <form method="POST" action="/affiliate/new">
+      <div class="form-group">
+        <label>Username *</label>
+        <input type="text" name="username" required placeholder="e.g. JohnDoe">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="optional">
+      </div>
+      <div class="form-group">
+        <label>Telegram Chat ID</label>
+        <input type="text" name="telegram_chat_id" placeholder="auto-captured when they message bot">
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea name="notes" rows="2" placeholder="optional"></textarea>
+      </div>
+      <button type="submit" class="btn btn-gold" style="width:100%">Add Affiliate</button>
+    </form>
+  </div>
+</div>
+` }) %>
