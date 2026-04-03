@@ -133,9 +133,14 @@ _Generated ${now} CST · PlaySlotsMobile_`;
 
   await bot.sendMessage(affiliate.telegram_chat_id, message, { parse_mode: 'Markdown' });
 
-  // Send PDF if exists
-  if (report.pdf_path && fs.existsSync(report.pdf_path)) {
-    await bot.sendDocument(affiliate.telegram_chat_id, report.pdf_path, {
+  // Send PDF — regenerate if file doesn't exist
+  let pdfPath = report.pdf_path;
+  if (!pdfPath || !fs.existsSync(pdfPath)) {
+    const { generatePDF } = require('./pdf');
+    pdfPath = await generatePDF(report, affiliate);
+  }
+  if (pdfPath && fs.existsSync(pdfPath)) {
+    await bot.sendDocument(affiliate.telegram_chat_id, pdfPath, {
       caption: `${affiliate.username} - ${report.week_label} Commission Report`
     });
   }
