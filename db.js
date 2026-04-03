@@ -2,8 +2,9 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join(__dirname, 'data', 'commissions.db');
-fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(__dirname, 'data');
+const dbPath = path.join(dataDir, 'commissions.db');
+fs.mkdirSync(dataDir, { recursive: true });
 
 const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
