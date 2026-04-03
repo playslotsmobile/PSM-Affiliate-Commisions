@@ -345,6 +345,21 @@ app.post('/report/:id/delete', (req, res) => {
   res.redirect(`/affiliate/${report.affiliate_id}`);
 });
 
+// ─── Admin: debug + import ───
+app.get('/admin/debug', (req, res) => {
+  const fs = require('fs');
+  const vol = (process.env.RAILWAY_VOLUME_MOUNT_PATH || '').trim();
+  const dataDir = require('./db').name;
+  res.json({
+    volume_path: vol,
+    volume_exists: vol ? fs.existsSync(vol) : false,
+    volume_contents: vol && fs.existsSync(vol) ? fs.readdirSync(vol) : [],
+    db_path: dataDir,
+    affiliates: db.prepare('SELECT COUNT(*) as c FROM affiliates').get().c,
+    reports: db.prepare('SELECT COUNT(*) as c FROM weekly_reports').get().c,
+  });
+});
+
 // Start
 initBot();
 app.listen(PORT, () => console.log(`PSM Commissions running on port ${PORT}`));
