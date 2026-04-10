@@ -10,6 +10,7 @@ function renderTable(affiliates, tierLabel, tierColor) {
     <thead>
       <tr>
         <th>Username</th>
+        <th>Active</th>
         <th>Referred</th>
         <th>Sold USD</th>
         <th>Carryover</th>
@@ -20,17 +21,18 @@ function renderTable(affiliates, tierLabel, tierColor) {
       </tr>
     </thead>
     <tbody>
-      ${affiliates.length === 0 ? '<tr><td colspan="8" style="text-align:center;color:#888;padding:20px;">No affiliates in this tier.</td></tr>' : ''}
+      ${affiliates.length === 0 ? '<tr><td colspan="9" style="text-align:center;color:#888;padding:20px;">No affiliates in this tier.</td></tr>' : ''}
       ${affiliates.map(a => `
         <tr>
           <td><a href="/affiliate/${a.id}">${a.username}</a></td>
+          <td>${a.lastActivePlayers}</td>
           <td>${a.lastReferredPlayers}</td>
           <td>${formatCurrency(a.lastSoldUsd)}</td>
           <td class="${a.carryover < 0 ? 'text-red' : ''}">${formatCurrency(a.carryover)}</td>
           <td class="text-green">${formatCurrency(a.lastCommission)}</td>
           <td>
             ${a.lastStatus === 'paid' ? '<span class="badge badge-paid">Paid</span>' :
-              a.lastStatus === 'unpaid' ? '<span class="badge badge-unpaid">Unpaid</span>' :
+              (a.lastStatus === 'pending' || a.lastStatus === 'unpaid') ? '<span class="badge badge-pending">Pending Review</span>' :
               '<span class="badge badge-na">N/A</span>'}
           </td>
           <td>${a.telegram_chat_id ? '<span class="text-green" id="tg-status-' + a.id + '">Connected</span> <button class="btn btn-outline btn-sm" style="font-size:9px;padding:2px 6px;" onclick="verifyTelegram(' + a.id + ')">Test</button>' : '<span class="text-gray">\u2014</span>'}</td>

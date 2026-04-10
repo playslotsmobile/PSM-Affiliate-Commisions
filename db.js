@@ -46,7 +46,7 @@ db.exec(`
     total_commission REAL NOT NULL DEFAULT 0,
     carryover_out REAL NOT NULL DEFAULT 0,
     rate_override_reason TEXT,
-    status TEXT NOT NULL DEFAULT 'unpaid',
+    status TEXT NOT NULL DEFAULT 'pending',
     sent_via_telegram INTEGER NOT NULL DEFAULT 0,
     telegram_sent_at TEXT,
     pdf_path TEXT,

@@ -30,7 +30,7 @@ public/                 # Static assets
 - **Tier System:** Commission rates 0.20-0.40 based on average players and USD sold
 - **Carryover:** Negative net balances carry forward to next week's payout
 - **Flexible Expenses:** Dynamic extra expense entries (marketing costs, etc.) stored as JSON
-- **Status Tracking:** Reports cycle through statuses (unpaid -> paid)
+- **Status Tracking:** Reports default to `pending` (displayed as "Pending Review"), toggle to `paid`. Legacy `unpaid` rows are still treated as "Pending Review" in the UI. PDFs only stamp a status when `paid`.
 - **Timezone:** Fixed to America/Chicago
 
 ## Routes

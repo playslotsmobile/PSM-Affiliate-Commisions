@@ -49,10 +49,10 @@
     <div class="card">
       <h2>Status</h2>
       <div class="flex gap-2 mb-4">
-        <span class="badge ${report.status === 'paid' ? 'badge-paid' : 'badge-unpaid'}">${report.status}</span>
+        <span class="badge ${report.status === 'paid' ? 'badge-paid' : 'badge-pending'}">${report.status === 'paid' ? 'Paid' : 'Pending Review'}</span>
         <button class="btn btn-sm ${report.status === 'paid' ? 'btn-red' : 'btn-green'}"
-          onclick="toggleStatus('${report.status === 'paid' ? 'unpaid' : 'paid'}')">
-          Mark ${report.status === 'paid' ? 'Unpaid' : 'Paid'}
+          onclick="toggleStatus('${report.status === 'paid' ? 'pending' : 'paid'}')">
+          Mark ${report.status === 'paid' ? 'Pending' : 'Paid'}
         </button>
       </div>
       ${report.sent_via_telegram ? '<p class="text-green" style="font-size:12px;">\u2713 Sent via Telegram' + (report.telegram_sent_at ? ' at ' + report.telegram_sent_at : '') + '</p>' : ''}

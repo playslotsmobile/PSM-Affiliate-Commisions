@@ -76,10 +76,10 @@
           <td class="text-green">${formatCurrency(r.total_commission)}</td>
           <td class="${r.carryover_out < 0 ? 'text-red' : ''}">${formatCurrency(r.carryover_out)}</td>
           <td>
-            <span class="badge ${r.status === 'paid' ? 'badge-paid' : 'badge-unpaid'}"
+            <span class="badge ${r.status === 'paid' ? 'badge-paid' : 'badge-pending'}"
               style="cursor:pointer"
-              onclick="toggleStatus(${r.id}, '${r.status === 'paid' ? 'unpaid' : 'paid'}')">
-              ${r.status}
+              onclick="toggleStatus(${r.id}, '${r.status === 'paid' ? 'pending' : 'paid'}')">
+              ${r.status === 'paid' ? 'Paid' : 'Pending Review'}
             </span>
           </td>
           <td>${r.sent_via_telegram ? '<span class="text-green">\u2713</span>' : '\u2014'}</td>

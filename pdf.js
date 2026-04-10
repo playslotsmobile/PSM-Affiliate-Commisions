@@ -79,11 +79,14 @@ function generatePDF(report, affiliate) {
       .text(`${affiliate.username}  ·  ${report.week_range}  ·  ${report.week_label}`, margin, y, { width: contentW, align: 'center', lineBreak: false });
     y += 22;
 
-    // Status
-    const statusColor = report.status === 'paid' ? teal : red;
-    doc.fillColor(statusColor).fontSize(12).font('Helvetica-Bold')
-      .text(report.status.toUpperCase(), margin, y, { width: contentW, align: 'center', lineBreak: false });
-    y += 24;
+    // Status — only stamp when paid; otherwise leave it clean
+    if (report.status === 'paid') {
+      doc.fillColor(teal).fontSize(12).font('Helvetica-Bold')
+        .text('PAID', margin, y, { width: contentW, align: 'center', lineBreak: false });
+      y += 24;
+    } else {
+      y += 8;
+    }
 
     // ─── PERFORMANCE ───
     const playerRows = db.prepare(`

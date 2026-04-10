@@ -108,7 +108,7 @@ function saveReport(data, existingId) {
         extra_expenses, total_expenses, carryover_in, net,
         payout_net, commission_rate, total_commission,
         carryover_out, rate_override_reason, status
-      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'unpaid')
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending')
     `).run(
       data.affiliateId, data.weekLabel || `Week of ${data.weekStart}`, weekRange, data.weekStart, data.weekEnd,
       data.activePlayers, data.referredPlayers, data.netSc, data.soldUsd,
@@ -145,6 +145,7 @@ app.get('/', (req, res) => {
       carryover: lastReport ? lastReport.carryover_out : 0,
       lastCommission: lastReport ? lastReport.total_commission : 0,
       lastSoldUsd: lastReport ? lastReport.sold_usd : 0,
+      lastActivePlayers: lastReport ? (lastReport.active_players || 0) : 0,
       lastReferredPlayers: lastReport ? (lastReport.referred_players || 0) : 0,
       lastStatus: lastReport ? lastReport.status : 'n/a',
       playerAvg,
